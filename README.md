@@ -21,7 +21,7 @@ To train the model, follow these steps:
 2. Load the MNIST data using the `load_mnist_data()` function.
 3. Split the training dataset into training and validation sets using the `custom_train_validation_split()` function.
 4. Choose hyperparameters for training, such as learning rate, hidden layer size, and L2 penalty.
-5. Use the `train_with_metrics()` function to train the model with the selected hyperparameters.
+5. Use the `training()` function to train the model with the selected hyperparameters.
 6. Optionally, tune hyperparameters using the `parameter_tuning()` function.
 
 ## Testing Procedure
@@ -51,17 +51,14 @@ from model import *
 train_images, train_labels, val_images, val_labels = custom_train_validation_split(train_images, train_labels, validation_ratio=0.2)
 
 # Define hyperparameters
-lr = 0.1
-hidden_size = 20
-l2_penalty = 0.1
-epochs = 1000
+lr = 0.05
+hidden_size = 40
+l2_penalty = 0.01
+epochs = 100
 batch_size = 256
 
 # Train the model
-train_losses, train_accuracies, test_losses, test_accuracies = train_with_metrics(
-    (train_images, train_labels), train_labels, (test_images, test_labels), test_labels,
-    epochs=epochs, batch_size=batch_size, lr=lr, l2_penalty=l2_penalty, save_path="final_model_params.npz"
-)
+train_losses, train_accuracies, test_losses, test_accuracies = training((train_images, train_labels), train_labels, (test_images, test_labels), test_labels, epochs=100, hidden_layer_sizes = best_hidden_size, batch_size=256, lr=best_lr, l2_penalty=best_l2_penalty, save_path="final_model_params.npz")
 
 # Test the model
 saved_params = np.load("final_model_params.npz")
